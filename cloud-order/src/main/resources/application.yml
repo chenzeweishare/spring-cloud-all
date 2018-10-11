@@ -9,3 +9,18 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
   instance:
     prefer-ip-address: true
+logging:                                # 配置日志级别，让hibernate打印出执行的SQL
+  level:
+    root: INFO
+    org.hibernate: INFO
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.hibernate.type.descriptor.sql.BasicExtractor: TRACE
+hystrix:
+  command:
+    default:
+      circuitBreaker:
+        requestVolumeThreshold:
+    execution:
+      isolation:
+        thread:
+          timeoutInMilliseconds: 2000     #命令执行超时时间
