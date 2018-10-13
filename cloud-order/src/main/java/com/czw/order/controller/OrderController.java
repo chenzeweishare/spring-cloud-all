@@ -28,6 +28,19 @@ public class OrderController {
         return this.restTemplate.getForObject("http://microservice-provider-user/" + id, User.class);
     }
 
+    @GetMapping("/user/{id}/{age}")
+    public User modifyUserAge(@PathVariable Long id,
+                              @PathVariable Integer age) {
+        return this.restTemplate.getForObject("http://microservice-provider-user/user/" + id + "/" + age, User.class);
+    }
+
+    @GetMapping("/user/distributed/{id}/{age}")
+    public User modifyUserAgeByDistributed(@PathVariable Long id,
+                              @PathVariable Integer age) {
+
+        return this.restTemplate.getForObject("http://microservice-provider-user/user/distributed/" + id + "/" + age, User.class);
+    }
+
     @GetMapping("/user/getIpAndPort")
     public String getIpAndPort() {
         return this.restTemplate.getForObject("http://microservice-provider-user/getIpAndPort", String.class);
