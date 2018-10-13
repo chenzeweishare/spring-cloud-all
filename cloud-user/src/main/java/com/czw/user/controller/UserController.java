@@ -83,15 +83,16 @@ public class UserController {
             User user = null;
             try {
                 // 尝试加锁，最多等待100秒，上锁以后5秒自动解锁
-                //if (lock.tryLock(100, 5, TimeUnit.SECONDS)) {
+                if (lock.tryLock(100, 60, TimeUnit.SECONDS)) {
                     lock.lock();
                     user = userRepository.findOne(id);
                     logger.info("用户老的年龄为:" + user.getAge());
                     user.setAge(user.getAge() + age);
                     userRepository.save(user);
                     logger.info("用户新的年龄为:" + user.getAge());
-                    Thread.sleep(6000);
-                 //}
+                    //测试超时
+                    Thread.sleep(2000);
+                 }
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
