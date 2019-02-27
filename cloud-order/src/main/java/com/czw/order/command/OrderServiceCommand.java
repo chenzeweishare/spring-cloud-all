@@ -1,6 +1,6 @@
 package com.czw.order.command;
 
-import com.czw.order.entity.User;
+import com.czw.user.User;
 import com.netflix.hystrix.HystrixCommand;
 import com.netflix.hystrix.HystrixCommandGroupKey;
 import org.springframework.web.client.RestTemplate;

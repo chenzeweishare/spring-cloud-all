@@ -1,12 +1,22 @@
-package com.czw.order.entity;
+package com.czw.user;
 
 import java.math.BigDecimal;
 
+import javax.persistence.*;
+
+@Entity
 public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column
     private String username;
+    @Column
     private String name;
+    @Column
     private Integer age;
+    @Column
     private BigDecimal balance;
 
     public Long getId() {
@@ -48,4 +58,5 @@ public class User {
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
+
 }

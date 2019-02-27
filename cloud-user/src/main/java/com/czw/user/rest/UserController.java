@@ -1,9 +1,9 @@
-package com.czw.user.controller;
+package com.czw.user.rest;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-import com.czw.user.entity.User;
+import com.czw.user.User;
 import com.czw.user.repository.UserRepository;
 import org.apache.log4j.Logger;
 import org.redisson.api.RLock;
@@ -25,8 +25,8 @@ public class UserController {
     @Autowired
     private Registration registration;
 
-    @Autowired
-    private RedissonClient  redissonClient;
+//    @Autowired
+//    private RedissonClient  redissonClient;
 
     @GetMapping("/{id}")
     public User findById(@PathVariable Long id) throws Exception {
@@ -75,33 +75,33 @@ public class UserController {
      * @param age
      * @return
      */
-    @GetMapping("/user/distributed/{id}/{age}")
-    public User modifyUserAgeByDistributed(@PathVariable Long id,
-                            @PathVariable Integer age) {
-        logger.info("分布式锁测试开始");
-        RLock lock = redissonClient.getLock("user");
-            User user = null;
-            try {
-                // 尝试加锁，最多等待100秒，上锁以后5秒自动解锁
-                if (lock.tryLock(100, 60, TimeUnit.SECONDS)) {
-                    lock.lock();
-                    user = userRepository.findOne(id);
-                    logger.info("用户老的年龄为:" + user.getAge());
-                    user.setAge(user.getAge() + age);
-                    userRepository.save(user);
-                    logger.info("用户新的年龄为:" + user.getAge());
-                    //测试超时
-                    Thread.sleep(2000);
-                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                lock.unlock();
-                logger.info("分布式锁测试结束");
-                return user;
-            }
-
-    }
+//    @GetMapping("/user/distributed/{id}/{age}")
+//    public User modifyUserAgeByDistributed(@PathVariable Long id,
+//                            @PathVariable Integer age) {
+//        logger.info("分布式锁测试开始");
+//        RLock lock = redissonClient.getLock("user");
+//            User user = null;
+//            try {
+//                // 尝试加锁，最多等待100秒，上锁以后5秒自动解锁
+//                if (lock.tryLock(100, 60, TimeUnit.SECONDS)) {
+//                    lock.lock();
+//                    user = userRepository.findOne(id);
+//                    logger.info("用户老的年龄为:" + user.getAge());
+//                    user.setAge(user.getAge() + age);
+//                    userRepository.save(user);
+//                    logger.info("用户新的年龄为:" + user.getAge());
+//                    //测试超时
+//                    Thread.sleep(2000);
+//                 }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            } finally {
+//                lock.unlock();
+//                logger.info("分布式锁测试结束");
+//                return user;
+//            }
+//
+//    }
 
     /**
      * Hystrix熔断测试
